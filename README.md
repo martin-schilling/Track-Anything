@@ -74,6 +74,7 @@ cd Track-Anything
 
 # Install dependencies: 
 pip install -r requirements.txt
+mim install mmcv
 
 # Run the Track-Anything gradio demo.
 python app.py --device cuda:0
