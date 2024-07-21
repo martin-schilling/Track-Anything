@@ -7,8 +7,8 @@ import ast
 sys.path.append(sys.path[0]+"/tracker")
 sys.path.append(sys.path[0]+"/tracker/model")
 
-from track_anything import TrackingAnything, parse_augment
-from download_models import download_checkpoint, download_checkpoint_from_google_drive
+from track_anything import TrackingAnything
+from download_models import download_checkpoint
 
 
 def get_prompt(click_state):
@@ -36,13 +36,12 @@ def process_video(input_path, output_video_path, output_mask_path, model_type, c
 
     SAM_checkpoint = download_checkpoint(SAM_checkpoint_url_dict[model_type], folder, SAM_checkpoint_dict[model_type])
     xmem_checkpoint = download_checkpoint('https://github.com/hkchengrex/XMem/releases/download/v1.0/XMem-s012.pth', folder, 'XMem-s012.pth')
-    e2fgvi_checkpoint = download_checkpoint_from_google_drive('10wGdKSUOie0XmCr8SQ2A2FeDe-mfn5w3', folder, 'E2FGVI-HQ-CVPR22.pth')
 
     class Args:
         device = "cuda:0"
         sam_model_type = model_type
 
-    model = TrackingAnything(SAM_checkpoint, xmem_checkpoint, e2fgvi_checkpoint, Args())
+    model = TrackingAnything(SAM_checkpoint, xmem_checkpoint, None, Args())
 
     frames = []
 

@@ -14,10 +14,12 @@ class TrackingAnything():
         self.args = args
         self.sam_checkpoint = sam_checkpoint
         self.xmem_checkpoint = xmem_checkpoint
-        self.e2fgvi_checkpoint = e2fgvi_checkpoint
         self.samcontroler = SamControler(self.sam_checkpoint, args.sam_model_type, args.device)
         self.xmem = BaseTracker(self.xmem_checkpoint, device=args.device)
-        self.baseinpainter = BaseInpainter(self.e2fgvi_checkpoint, args.device) 
+
+        if e2fgvi_checkpoint:
+            self.e2fgvi_checkpoint = e2fgvi_checkpoint
+            self.baseinpainter = BaseInpainter(self.e2fgvi_checkpoint, args.device)
     # def inference_step(self, first_flag: bool, interact_flag: bool, image: np.ndarray, 
     #                    same_image_flag: bool, points:np.ndarray, labels: np.ndarray, logits: np.ndarray=None, multimask=True):
     #     if first_flag:
