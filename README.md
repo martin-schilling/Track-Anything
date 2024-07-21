@@ -79,6 +79,11 @@ mim install mmcv
 # Run the Track-Anything gradio demo.
 python app.py --device cuda:0
 # python app.py --device cuda:0 --sam_model_type vit_b # for lower memory usage
+# python track_video.py --output_mask ./video.mask.npz --output_video ./video.output.mp4 ./video.mp4 vit_b '[[[556, 111], [564, 158]], [1, 1]]'
+
+# def load_masks(input_path):
+#     loaded = np.load(input_path)
+#     return [loaded[key] for key in loaded]
 ```
 
 
