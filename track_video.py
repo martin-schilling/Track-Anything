@@ -2,7 +2,7 @@ import sys
 import cv2
 import numpy as np
 import argparse
-import ast
+import json
 
 sys.path.append(sys.path[0]+"/tracker")
 sys.path.append(sys.path[0]+"/tracker/model")
@@ -92,24 +92,19 @@ def process_video(input_path, output_video_path, output_mask_path, model_type, c
         video_writer.release()
 
 
-def parse_click_state(string):
-    try:
-        return ast.literal_eval(string)
-    except (ValueError, SyntaxError):
-        raise argparse.ArgumentTypeError("Click state must be a valid Python expression representing a list of lists.")
-
-
 def main():
     parser = argparse.ArgumentParser(description="Process a video with a specified model type.")
     parser.add_argument('input_video', type=str, help="Path to the input video file")
     parser.add_argument('--output_video', type=str, help="Path to save the output video file (optional)")
     parser.add_argument('--output_mask', type=str, help="Path to save the output mask file (optional)")
     parser.add_argument('model_type', type=str, help="vit_h (higher mem) or vit_b (lower mem)")
-    parser.add_argument('click_state', type=parse_click_state, help="Click state as a nested list")
+    parser.add_argument('click_state', type=str, help="Click state as a nested list")
 
     args = parser.parse_args()
 
-    process_video(args.input_video, args.output_video, args.output_mask, args.model_type, args.click_state)
+    click_state = json.loads(args.click_state.strip("'"))
+
+    process_video(args.input_video, args.output_video, args.output_mask, args.model_type, click_state)
 
 
 if __name__ == "__main__":
